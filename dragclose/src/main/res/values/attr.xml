@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="QDragClose">
+        <!-- 是否可以手势下拉，默认true -->
+        <attr name="dragEnable" format="boolean" />
+        <!-- 下拉距离占总height百分之多少就触发关闭，0 - 1之间，默认0.2 -->
+        <attr name="closeYRatio" format="float" />
+        <!-- 手指快速下滑也可以触发关闭，默认true -->
+        <attr name="flingCloseEnable" format="boolean" />
+        <!-- 手势下拉过程中，其他View根据滑动距离半透明，默认false -->
+        <attr name="alphaWhenDragging" format="boolean" />
+        <!-- 关闭动画耗时，默认450 -->
+        <attr name="closeAnimationDuration" format="integer" />
+        <!-- 下拉力度不够，反弹回正常状态动画耗时，默认200 -->
+        <attr name="rollToNormalAnimationDuration" format="integer" />
+    </declare-styleable>
+
+</resources>

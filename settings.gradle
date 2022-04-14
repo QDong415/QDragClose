@@ -1,0 +1,3 @@
+rootProject.name = "DragCloseDemo"
+include ':app'
+include ':dragclose'

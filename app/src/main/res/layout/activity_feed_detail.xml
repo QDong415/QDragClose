@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.dq.dragclose.QDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drag_layout"
+    app:alphaWhenDragging="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="18dp"
+            android:src="@mipmap/user_photo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:textColor="#000"
+            android:text="下面的图片是banner，可左滑"></TextView>
+
+    </LinearLayout>
+
+    <!-- 本Demo是用系统的transitionName做跳转Activity动画，所以需要这个 -->
+    <ImageView
+        android:id="@+id/transition_share_view"
+        android:layout_below="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:transitionName="sharedView"></ImageView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        android:overScrollMode="never" />
+
+</com.dq.dragclose.QDragRelativeLayout>

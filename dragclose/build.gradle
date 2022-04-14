@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'//编译成jitpack依赖库需要添加这句
+}
+
+//编译成jitpack依赖库需要添加下面的这段
+task generateSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 16
+        targetSdk 31
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    //编译成jitpack依赖库需要添加下面的这段
+    afterEvaluate {
+        publishing {
+            publications {
+                // Creates a Maven publication called "release".
+                release(MavenPublication) {
+                    // Applies the component for the release build variant.
+                    from components.release
+
+                    // You can then customize attributes of the publication as shown below.
+                    groupId = 'com.qdong.dragclose'
+                    artifactId = 'dragclose'
+                    version = '1.0'
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+
+}
