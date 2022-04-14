@@ -2,7 +2,7 @@
 
 ## 简介：
 
-下拉拖拽关闭Activity。仿大众点评、快手、小红书详情，可下滑关闭界面。
+下拉拖拽关闭Activity。仿大众点评、快手、小红书详情界面可下滑关闭界面。
 Drag down to close activity
 
 ## 安装体验：
@@ -16,19 +16,19 @@ Drag down to close activity
 - ✅详情界面可左滑进入个人主页，你可以自己实现懒加载
 - ✅完美解耦，可轻松让你的任何Activity实现下拉关闭效果
 
-## 作者DQ说明：
+## 作者说明：
 - 用leakCanary有时候会报内存泄漏，泄漏内容是FrameLayout，这是Android系统的bug，不是我的问题（也可能是leakCanary误报）
-- 你可以自己新建一个项目试一下，复现步骤：
-1、在`ActivityA`点击按钮，通过系统过场动画（ActivityOptions.makeSceneTransitionAnimation）跳转到`ActivityB`
-2、`ActivityB`的xml中有一个你的自定义View（自己随便写个MyView extend View）
-3、关闭`ActivityB`
-4、重复 1、2、3步骤 重复三次。就会被leakCanary爆出内存泄漏，但是这个内存泄漏貌似不会复现。
+- 你可以自己新建一个项目试一下，复现步骤：<br />
+1、在`ActivityA`点击按钮，通过系统过场动画（ActivityOptions.makeSceneTransitionAnimation）跳转到`ActivityB`<br />
+2、`ActivityB`的xml中有一个你的自定义View（自己随便写个MyView extend View）<br />
+3、关闭`ActivityB`<br />
+4、重复 1、2、3步骤 重复三次。就会被leakCanary爆出内存泄漏，但是这个内存泄漏貌似不会复现。<br />
 
 我试了很多办法，比如onDestory里remove DecorView，也没用。如果你知道这个问题具体情况，请联系我，谢谢
 
 ## 效果gif图（Gif图有点卡，实际运行一点都不卡）：
-![](https://upload-images.jianshu.io/upload_images/26002059-22bdf0a80a55ad1a.png)
-![](https://upload-images.jianshu.io/upload_images/26002059-83cf0b95754b2466.png)
+![](https://upload-images.jianshu.io/upload_images/26002059-96c272f540bddb21.gif)
+![](https://upload-images.jianshu.io/upload_images/26002059-da019a1de650eca8.gif)
 
 ## 导入
 ```
