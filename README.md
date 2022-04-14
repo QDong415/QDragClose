@@ -1,26 +1,34 @@
-# QDrawGift
+# QDragClose
 
 ## 简介：
 
-仿快手直播间手绘礼物，手绘+播放+底部礼物弹框，Demo非常完整，非常贴合实际开发场景 。
-A Gift Painter useful in Living Room. Support paint+play+bottomSheet
+下拉拖拽关闭Activity。仿大众点评、快手、小红书详情，可下滑关闭界面。
+Drag down to close activity
 
 ## 安装体验：
-![](https://upload-images.jianshu.io/upload_images/26002059-83cf0b95754b2466.png)
+![](https://upload-images.jianshu.io/upload_images/26002059-bbd971084ea123f9.jpeg)
 
 ## 功能（优点）：
-- ✅Demo包含`手绘View`+`播放View`+`底部礼物弹框View`+转成json传给服务器+模拟服务器推送来json解析队列
-- ✅为了兼容底部礼物弹框是基于Dialog或者popupView做的，本Demo的`手绘View`是基于windowManager层
-- ✅`手绘View`可以单独撤销一笔
-- ✅`播放View`使用LinkedList做礼物队列，可以随意插入到列头或者列尾
-- ✅底部礼物弹框兼容手绘礼物和普通礼物，选择不同的礼物，手绘View层可以切换placeHolder
-- ✅每个模块都相互解耦，都可以自由替换，也都可以拉出来当做独立的模块
-- ✅采用SpareArray做Bitmap缓存，占用内存极低
-- ✅无内存泄漏。代码清晰明确，注释量比代码都多
+- ✅Demo包含`瀑布列表跳转到详情，带动画`+`详情可左滑进入个人主页`+`下拉拖拽关闭Activity`
+- ✅到为了让Activity的xml布局层级最少，只需要把本库设置为最外层的RelativeLayout
+- ✅仿大众点评：下拉过程中除了图片，别的部分随着下拉距离而半透明
+- ✅仿快手：fling快速下滑也可触发关闭
+- ✅详情界面可左滑进入个人主页，你可以自己实现懒加载
+- ✅完美解耦，可轻松让你的任何Activity实现下拉关闭效果
+
+## 作者DQ说明：
+- 用leakCanary有时候会报内存泄漏，泄漏内容是FrameLayout，这是Android系统的bug，不是我的问题（也可能是leakCanary误报）
+- 你可以自己新建一个项目试一下，复现步骤：
+1、在`ActivityA`点击按钮，通过系统过场动画（ActivityOptions.makeSceneTransitionAnimation）跳转到`ActivityB`
+2、`ActivityB`的xml中有一个你的自定义View（自己随便写个MyView extend View）
+3、关闭`ActivityB`
+4、重复 1、2、3步骤 重复三次。就会被leakCanary爆出内存泄漏，但是这个内存泄漏貌似不会复现。
+
+我试了很多办法，比如onDestory里remove DecorView，也没用。如果你知道这个问题具体情况，请联系我，谢谢
 
 ## 效果gif图（Gif图有点卡，实际运行一点都不卡）：
-![](https://upload-images.jianshu.io/upload_images/26002059-48456ffa60a85222.gif)
-
+![](https://upload-images.jianshu.io/upload_images/26002059-22bdf0a80a55ad1a.png)
+![](https://upload-images.jianshu.io/upload_images/26002059-83cf0b95754b2466.png)
 
 ## 导入
 ```
@@ -32,45 +40,37 @@ A Gift Painter useful in Living Room. Support paint+play+bottomSheet
 	}
 
 	dependencies {
-	        implementation 'com.github.QDong415:QDrawGift:v1.1.1'
+	        implementation 'com.github.QDong415:QDragClose:v1.0'
 	}
 ```
 
 ## 使用
 
 ```java
-    //底部的礼物弹框
-    private BottomGiftSheetBuilder giftSheetBuilder;
-
-    //画礼物的背景View（透明的，并不是灰底）
-    private DrawGiftView drawGiftView;
-
-    //播放礼物动画的层
-    private DrawGiftPlayView playView;
+        QDragRelativeLayout contentLayout = findViewById(R.id.drag_layout);
+        contentLayout.setOnDragCloseListener(this);
+        //传入列表的点击项目的ImageView的坐标
+        contentLayout.setupFromImageView(fromX, fromY, fromWidth, fromHeight, transition_share_view);
 ```
 
-```java
-    //初始化手绘礼物View
-    drawGiftView = new DrawGiftView(LiveActivity.this);
-    //设置当前要画的礼物
-    drawGiftView.setCurrentGift(giftid ,giftBitmap , giftPrice);
-    //正式显示手绘礼物View，添加它到windowManager层
-    drawGiftView.showInActivityWindow(LiveActivity.this, giftSheetBuilder.mDialog.getContentView().getHeight());
-```
-
-```java
-    //初始化播放View
-    playView = new DrawGiftPlayView(this);
-
-    //添加播放View到decorView
-    FrameLayout contentParent = (FrameLayout) getWindow().getDecorView().findViewById(android.R.id.content);
-    contentParent.addView(playView);
-
-    //开始播放礼物，insertToFirst = 是否插入到队列靠前位置
-    playView.addDrawGifts(allDrawGiftArray, insertToFirst);
+```xml
+    <declare-styleable name="QDragClose">
+        <!-- 是否可以手势下拉，默认true -->
+        <attr name="dragEnable" format="boolean" />
+        <!-- 下拉距离占总height百分之多少就触发关闭，0 - 1之间，默认0.2 -->
+        <attr name="closeYRatio" format="float" />
+        <!-- 手指快速下滑也可以触发关闭，默认true -->
+        <attr name="flingCloseEnable" format="boolean" />
+        <!-- 手势下拉过程中，其他View根据滑动距离半透明，默认false -->
+        <attr name="alphaWhenDragging" format="boolean" />
+        <!-- 关闭动画耗时，默认450 -->
+        <attr name="closeAnimationDuration" format="integer" />
+        <!-- 下拉力度不够，反弹回正常状态动画耗时，默认200 -->
+        <attr name="rollToNormalAnimationDuration" format="integer" />
+    </declare-styleable>
 ```
 
 
-## Author
+## Author：DQ
 
 有问题联系QQ：285275534, 285275534@qq.com

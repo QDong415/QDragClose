@@ -89,6 +89,7 @@ public class FeedDetailActivity extends Activity implements DragCloseListener {
         //第三步：这是最重要的
         QDragRelativeLayout contentLayout = findViewById(R.id.drag_layout);
         contentLayout.setOnDragCloseListener(this);
+        //传入列表的点击项目的ImageView的坐标
         contentLayout.setupFromImageView(fromX, fromY, fromWidth, fromHeight, transition_share_view);
 
         //移除RootActivity的共享View。DQ目前尚不确定6.0手机是不是也有这问题，我手上没6.0手机
