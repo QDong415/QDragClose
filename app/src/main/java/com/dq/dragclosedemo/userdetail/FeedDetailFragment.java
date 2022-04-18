@@ -111,6 +111,11 @@ public class FeedDetailFragment extends Fragment implements DragCloseListener {
     }
 
     @Override
+    public void onCloseAnimationStart() {
+
+    }
+
+    @Override
     public void onCloseAnimationEnd() {
         getActivity().finish();
         getActivity().overridePendingTransition(0, 0);

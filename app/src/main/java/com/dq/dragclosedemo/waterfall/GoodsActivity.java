@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import com.dq.dragclosedemo.R;
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
+//瀑布流，我这里只是demo，你可以随意修改
 public class GoodsActivity extends AppCompatActivity {
 
 	private RecyclerView recyclerView;
@@ -64,8 +64,22 @@ public class GoodsActivity extends AppCompatActivity {
 				intent.putExtra("fromHeight", height);
 
 				if (Build.VERSION.SDK_INT >= LOLLIPOP) {
-					startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(GoodsActivity.this
-							, v.findViewById(R.id.cover), "sharedView").toBundle());
+
+					//用系统的Activity过场动画进行跳转
+					Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(GoodsActivity.this
+							, v.findViewById(R.id.cover), "sharedView").toBundle();
+					startActivity(intent, bundle);
+
+					//系统的Activity过场动画会让shareElementView.setAlpha(0)；然后再回退动画后再进行.setAlpha(1)
+					//会导致一个问题：我们下拉返回的时候，由于弹回动画是我们自己做的。但是系统依然会再进行一遍.setAlpha(1)，导致回弹动画结束时候图片会闪一下
+					//为了解决"闪一下"的问题，我用这种方法把他提前设为.setAlpha(1)
+					v.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							v.findViewById(R.id.cover).setAlpha(1);
+						}
+					}, 400);//activity过场动画的默认时长是300
+
 				} else {
 					startActivity(intent);
 				}
@@ -82,13 +96,11 @@ public class GoodsActivity extends AppCompatActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.e("dz","GoodsActivity onResume");
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		Log.e("dz","GoodsActivity onPause");
 	}
 
 	//假数据

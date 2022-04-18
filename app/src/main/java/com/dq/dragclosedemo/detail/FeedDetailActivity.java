@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-//不可以向左滑到个人主页。如果你需要可以左滑到个人主页。去看FeedDetailRootActivity
+//这里展示的是：不可以向左滑到个人主页。如果你需要可以左滑到个人主页。去看FeedDetailRootActivity
 public class FeedDetailActivity extends Activity implements DragCloseListener {
 
     private RecyclerView mRecyclerView;
@@ -98,7 +100,7 @@ public class FeedDetailActivity extends Activity implements DragCloseListener {
         }
     }
 
-    //Q:为什么要用代码设置透明
+    //Q:为什么要用代码设置透明，只用xml里设置透明theme不行吗？
     //A:因为5.1系统，如果你即使在设置xml里的透明theme，Activity背景还是黑的。只能用反射去修改Activity的backgroundColor
     private void translucentActivity(Activity activity) {
         try {
@@ -139,6 +141,10 @@ public class FeedDetailActivity extends Activity implements DragCloseListener {
     }
 
     @Override
+    public void onCloseAnimationStart() {
+    }
+
+    @Override
     public void onCloseAnimationEnd() {
         finish();
         overridePendingTransition(0, 0);
@@ -149,8 +155,4 @@ public class FeedDetailActivity extends Activity implements DragCloseListener {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 }

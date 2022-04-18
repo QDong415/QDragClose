@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.transition.Transition
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -23,7 +22,7 @@ import com.bumptech.glide.Glide
 import com.dq.dragclosedemo.R
 import com.dq.dragclosedemo.waterfall.GoodsBean
 
-//可以侧滑到个人主页Demo，我这里用kotlin写的，你要是用java的话自己转
+//可以侧滑到个人主页Demo。我这里用kotlin写的，你要是用java的话自己转
 class FeedDetailRootActivity : AppCompatActivity() {
 
     private lateinit var todayFragment: FeedDetailFragment
@@ -67,7 +66,7 @@ class FeedDetailRootActivity : AppCompatActivity() {
 
                 override fun onTransitionCancel(transition: Transition?) {
                     //移除RootActivity的共享View
-                    mainHandler.postDelayed(Runnable { removeTransitionShareOuterView() }, 0)
+                    mainHandler.post(Runnable { removeTransitionShareOuterView() })
                 }
 
                 override fun onTransitionPause(transition: Transition?) {
@@ -121,7 +120,6 @@ class FeedDetailRootActivity : AppCompatActivity() {
         if (transitionShareOuterView != null){
             val vg = transitionShareOuterView!!.getParent() as ViewGroup;
             vg.removeView(transitionShareOuterView!!)
-            Log.e("dz","移除TransitionShareOuterView")
             transitionShareOuterView = null
         }
     }
@@ -158,7 +156,6 @@ class FeedDetailRootActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         //如果你在这里removeView(transitionShareOuterView)，会导致无跳转动画
-        Log.e("dz","Root onWindowFocusChanged")
     }
 
     //kotlin 内部类默认是static ,前面加上inner为非静态

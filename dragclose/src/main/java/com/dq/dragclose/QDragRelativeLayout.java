@@ -10,7 +10,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -114,7 +113,6 @@ public class QDragRelativeLayout extends RelativeLayout {
                     //如果dragEnable为false 或 横滑距离大于竖滑的一半（源自viewpager源码），那么就由Rv吃掉触摸事件。
                     if (dragEnable && diffY > touchSlop && diffY > Math.abs(event.getRawX() - downX) * 2f) {
                         //说明当前手指Y 在 downY的下面（即：向下拉）
-                        Log.e("dz","向下拉，要拦截");
                         if (onDragCloseListener != null) {
                             return !onDragCloseListener.contentViewNeedTouchEvent();
                         }
@@ -124,7 +122,6 @@ public class QDragRelativeLayout extends RelativeLayout {
                     } else {
                         //当前手指Y 在 downY的上面
                         //一定进入这里，事件就被rv吃掉了，并且rv require了，就由rv主宰了。本vg就也不会再触发onInterceptTouchEvent了。（但继续走vg的dispatchTouchEvent方法且mFirstTouchTarget != null）
-                        Log.e("dz","不满足拦截条件了" +diffY);
                     }
                     break;
                 case MotionEvent.ACTION_UP:
@@ -173,8 +170,6 @@ public class QDragRelativeLayout extends RelativeLayout {
                     if (alphaWhenDragging){
                         //手势下拉过程中，其他View根据滑动距离半透明
                         final float otherViewAlpha = diffY >= MAX_CLOSE_Y ? 0 : ( 1 - diffY / MAX_CLOSE_Y);
-
-//                        Log.e("dz","otherViewAlpha = "+otherViewAlpha);
 
                         //隐藏除了shareImageView之外的所有View（主要是隐藏recycleView）
                         for (int i = 0; i < getChildCount(); i++) {
@@ -254,6 +249,7 @@ public class QDragRelativeLayout extends RelativeLayout {
 
             @Override
             public void onAnimationStart(Animator animation) {
+                if (onDragCloseListener != null) onDragCloseListener.onCloseAnimationStart();
             }
         });
         //执行关闭动画

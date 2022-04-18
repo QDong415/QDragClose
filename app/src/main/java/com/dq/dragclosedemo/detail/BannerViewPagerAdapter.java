@@ -10,6 +10,7 @@ import java.util.List;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+//详情界面的HeaderView的Adapter（实际开发一般是banner）。我这里只是demo，你可以随意修改
 public class BannerViewPagerAdapter extends PagerAdapter {
 
     private Context context;

@@ -2,7 +2,7 @@
 
 ## 简介：
 
-下拉拖拽关闭Activity。仿大众点评、快手、小红书详情界面可下滑关闭界面。
+下拉拖拽关闭Activity，下拉返回Activity。仿大众点评、快手、小红书详情界面：可下滑关闭详情界面。
 Drag down to close activity
 
 ## 安装体验：
@@ -14,17 +14,14 @@ Drag down to close activity
 - ✅仿大众点评：下拉过程中除了图片，别的部分随着下拉距离而半透明
 - ✅仿快手：fling快速下滑也可触发关闭
 - ✅详情界面可左滑进入个人主页，你可以自己实现懒加载
+- ✅解决下拉返回ImageView闪一下问题
 - ✅完美解耦，可轻松让你的任何Activity实现下拉关闭效果
 
 ## 作者说明：
-- 用leakCanary有时候会报内存泄漏，泄漏内容是FrameLayout，这是Android系统的bug，不是我的问题（也可能是leakCanary误报）
-- 你可以自己新建一个项目试一下，复现步骤：<br />
-1、在`ActivityA`点击按钮，通过系统过场动画（ActivityOptions.makeSceneTransitionAnimation）跳转到`ActivityB`<br />
-2、`ActivityB`的xml中有一个你的自定义View（自己随便写个MyView extend View）<br />
-3、关闭`ActivityB`<br />
-4、重复 1、2、3步骤 重复三次。就会被leakCanary爆出内存泄漏，但是这个内存泄漏貌似不会复现。<br />
+Android系统的Activity过场动画会让shareElementImageView.setAlpha(0)；然后回退动画结束再进行.setAlpha(1)<bar/>
+这样会导致一个问题：我们下拉返回的时候，由于弹回动画是我们自己做的。但是系统依然会再进行一遍.setAlpha(1)，导致回弹动画结束时候图片会闪一下。参考下面的第1个gif<bar/>
+为了解决"闪一下"的问题，我用这种方法把他提前设为.setAlpha(1)<bar/>
 
-我试了很多办法，比如onDestory里remove DecorView，也没用。如果你知道这个问题具体情况，请联系我，谢谢
 
 ## 效果gif图（Gif图有点卡，实际运行一点都不卡）：
 ![](https://upload-images.jianshu.io/upload_images/26002059-96c272f540bddb21.gif)
@@ -40,7 +37,7 @@ Drag down to close activity
 	}
 
 	dependencies {
-	        implementation 'com.github.QDong415:QDragClose:v1.0'
+	        implementation 'com.github.QDong415:QDragClose:v1.0.1'
 	}
 ```
 

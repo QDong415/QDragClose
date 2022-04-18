@@ -8,6 +8,7 @@ import com.dq.dragclosedemo.R;
 import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
+//详情界面的列表的Adapter（实际开发一般是评论列表）。我这里只是demo，你可以随意修改
 public class DetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_HEADER = 0; //说明是带有Header的
@@ -15,7 +16,7 @@ public class DetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     //获取从Activity中传递过来每个item的数据集合
     private List<String> mDatas;
-    //HeaderView, FooterView
+    //HeaderView
     private View mHeaderView;
 
     //构造函数
