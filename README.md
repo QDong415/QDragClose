@@ -6,7 +6,7 @@
 Drag down to close activity
 
 ## 安装体验：
-![](https://upload-images.jianshu.io/upload_images/26002059-bbd971084ea123f9.jpeg)
+![](https://upload-images.jianshu.io/upload_images/26002059-94273eadb7cf0295.png)
 
 ## 功能（优点）：
 - ✅Demo包含`瀑布列表跳转到详情，带动画`+`详情可左滑进入个人主页`+`下拉拖拽关闭Activity`
