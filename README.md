@@ -18,9 +18,9 @@ Drag down to close activity
 - ✅完美解耦，可轻松让你的任何Activity实现下拉关闭效果
 
 ## 作者说明：
-Android系统的Activity过场动画会让shareElementImageView.setAlpha(0)；然后回退动画结束再进行.setAlpha(1)<bar/>
-这样会导致一个问题：我们下拉返回的时候，由于弹回动画是我们自己做的。但是系统依然会再进行一遍.setAlpha(1)，导致回弹动画结束时候图片会闪一下。参考下面的第1个gif<bar/>
-为了解决"闪一下"的问题，我用这种方法把他提前设为.setAlpha(1)<bar/>
+Android系统的Activity过场动画会让shareElementImageView.setAlpha(0)；然后回退动画结束再进行.setAlpha(1)<bar />
+这样会导致一个问题：我们下拉返回的时候，由于弹回动画是我们自己做的。但是系统依然会再进行一遍.setAlpha(1)，导致回弹动画结束时候图片会闪一下。参考下面的第1个gif<bar />
+为了解决"闪一下"的问题，我用这种方法把他提前设为.setAlpha(1)<bar />
 
 
 ## 效果gif图（Gif图有点卡，实际运行一点都不卡）：
